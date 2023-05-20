@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    height: 100%;
+}
+
+.btn {
+    background: radial-gradient(circle at top left, theme(colors.purple.800) 0, transparent 40%),
+                radial-gradient(circle at 45% 100%, theme(colors.purple.800) 0, transparent 40%),
+                radial-gradient(circle at 45% 0%, theme(colors.red.300) 0, transparent 40%),
+                radial-gradient(circle at bottom left, theme(colors.emerald.500) 0, transparent 40%);
+    background-size: 2v00% 100%;
+    background-repeat: no-repeat;
+}
+
+.btn2 {
+    background: linear-gradient(45deg, theme(colors.purple.800), theme(colors.emerald.500));
+}
+
