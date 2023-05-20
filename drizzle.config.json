@@ -1,0 +1,6 @@
+{
+    "out": "./migrations-folder",
+    "schema": "./src/lib/db/schema",
+    "breakpoints": true,
+    "connectionString": "mysql://wmhsi44rqfvs4xj93d4w:pscale_pw_sk5bbGWiaiNL9EWwKMKDWtJEx6QAgbK08nEqFjxGAzr@aws.connect.psdb.cloud/vitrualvault?ssl={\"rejectUnauthorized\":true}"
+}
