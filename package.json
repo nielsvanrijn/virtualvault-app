@@ -9,9 +9,9 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "eslint .",
-        "db:generate": "drizzle-kit generate:mysql",
-        "db:push": "drizzle-kit push:mysql",
-        "db:drop": "drizzle-kit drop"
+		"db:generate": "drizzle-kit generate:mysql",
+		"db:push": "drizzle-kit push:mysql",
+		"db:drop": "drizzle-kit drop"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
@@ -54,6 +54,7 @@
 		"mysql2": "^3.3.0",
 		"nodemailer": "^6.9.2",
 		"svelte-fa": "^3.0.3",
+		"svelte-zdog": "^0.3.0",
 		"trpc-sveltekit": "^3.5.7"
 	}
 }

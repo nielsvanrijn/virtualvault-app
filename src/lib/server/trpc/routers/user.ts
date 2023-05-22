@@ -16,27 +16,6 @@ function uint8ArrayToBase64String(uint8Array: Uint8Array) {
 }
 
 export const userRouter = t.router({
-    getUserByEmail: t.procedure
-        .use(logger)
-        .input(z.string())
-        .query(async ({ input }) => {
-            return await db.query.users.findFirst({ with: { authenticators: true }, where: eq(users.email, input) })
-        }),
-
-    getUserByCode: t.procedure
-        .use(logger)
-        .input(z.string())
-        .query(async ({ input }) => {
-            // select user by code, limit 1, left join on credentials
-            return await db.query.users.findFirst({ with: { authenticators: true }, where: eq(users.verificationCode, input) })
-        }),
-    removeCodeByUserId: t.procedure
-        .use(logger)
-        .input(z.string())
-        .mutation(async ({ input }) => {
-            // update user by id, set verificationCode to null
-            return await db.update(users).set({ verificationCode: null }).where(eq(users.id, input))
-        }),
     signIn: t.procedure
         .use(logger)
         .input(z.string())
@@ -74,18 +53,6 @@ export const userRouter = t.router({
                 console.log(err)
                 return { error: { location: 'email' as const, message: 'Could not create user!' } }
             })
-
-            // const insert = await db.insert(users).values({ ...input, verificationCode: code })
-            //     .then(() => ({ error: null }))
-            //     .catch((err) => {
-            //         console.log(err)
-            //         return { error: { location: 'email' as const, message: 'Could not create user!' } }
-            //     })
-
-            // check if insert was successful
-            // if (insert.error) {
-            //     return insert
-            // }
 
             // send email
             return nodemailer.createTransport({

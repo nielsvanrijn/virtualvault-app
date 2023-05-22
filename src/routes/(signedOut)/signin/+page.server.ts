@@ -1,9 +1,12 @@
 import { fail, redirect } from '@sveltejs/kit'
 import { setError, superValidate } from 'sveltekit-superforms/server'
 import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/typescript-types'
+import { eq } from 'drizzle-orm'
 import type { PageServerLoad, Actions } from './$types'
 import { signInSchema } from '$lib/schema/signInSchema'
 import { finalizeAuthentication, initializeAuthentication } from '$lib/server/helpers/authenticateWebauthn'
+import { db } from '$lib/db/db'
+import { users } from '$lib/db/schema/users'
 
 export const load = (async (event) => {
     const form = await superValidate(event, signInSchema)
@@ -19,7 +22,7 @@ export const actions = {
         if (!form.valid) return fail(400, {form})
 
         // get user by email
-        const user = await event.locals.trpc.user.getUserByEmail(form.data.email)
+        const user = await db.query.users.findFirst({ with: { authenticators: true }, where: eq(users.email, form.data.email) })
 
         if (!user) return { form }
 

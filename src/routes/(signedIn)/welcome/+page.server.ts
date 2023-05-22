@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async () => ({
-    yolo: 'swek'
+    yolo: 'hi'
 })
 
 export const actions = {

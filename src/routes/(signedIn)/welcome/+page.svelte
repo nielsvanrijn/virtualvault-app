@@ -4,17 +4,21 @@
     import Button from '$lib/components/ui/Button.svelte'
 
     export let data: PageData
+    console.log(data)
 </script>
 <div class="h-full">
-    <nav class="flex justify-between">
-        <a href="/home">Home</a>
-        <form action="?/logout" method="post" use:enhance>
-            <Button>Sign out</Button>
-        </form>
-    </nav>
-    <div>
-        <h1 class="text-4xl">Home</h1>
-        <p class="mt-4">Dope! Your signed in.</p>
-        <h3 class="text-xl font-black text-indigo-700">{data.yolo}</h3>
+    <!-- <form action="?/logout" method="post" use:enhance>
+        <Button>Sign out</Button>
+    </form> -->
+
+    <!-- searchbar -->
+    <!-- filter? -->
+    
+    <div class="flex">
+
     </div>
+
+    <!-- <div class="grid h-full">
+        <div class="relative z-10 px-4 py-2 m-auto rounded-lg h-[1000px] bg-gradient-to-br from-zinc-500 to-zinc-800 before:inset-[2px] before:rounded-md before:bg-zinc-950 before:absolute before:-z-10 w-[500px]"></div>
+    </div> -->
 </div>

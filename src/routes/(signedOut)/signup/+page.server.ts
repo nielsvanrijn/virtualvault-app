@@ -1,21 +1,23 @@
 import { fail } from '@sveltejs/kit'
 import { message, setError, superValidate } from 'sveltekit-superforms/server'
 import type { RegistrationResponseJSON, PublicKeyCredentialCreationOptionsJSON } from '@simplewebauthn/typescript-types'
+import { eq } from 'drizzle-orm'
 import type { PageServerLoad, Actions } from './$types'
 import { emailSchema, webautnSchema } from '$lib/schema/signUpSchema'
 import { finalizeRegister, initializeRegister } from '$lib/server/helpers/registerWebauthn'
+import { db } from '$lib/db/db'
+import { users } from '$lib/db/schema/users'
 
 export const load = (async (event) => {
-    // const form = await superValidate(event, signUpSchema)
     const emailForm = await superValidate(event, emailSchema, { id: 'emailForm' })
     const webauthnForm = await superValidate(event, webautnSchema, { id: 'webauthnForm' })
 
     const code = event.url.searchParams.get('code')
 
-    if (!code) return { emailForm, webauthnForm } // show error? maybe not because someone coud try to guess the code
+    if (!code) return { emailForm, webauthnForm } // dont show err because someone coud try to guess the code
     
     // get user by code
-    const user = await event.locals.trpc.user.getUserByCode(code)
+    const user = await db.query.users.findFirst({ with: { authenticators: true }, where: eq(users.verificationCode, code) })
 
     if (!user) return { emailForm, webauthnForm } // show error?
 
@@ -63,7 +65,7 @@ export const actions = {
         // const key = await auth.useKey('webauthn', PublicKeyCredentialCreationOptionsJSON.user.name, null)
         
         // remove the code from the user
-        await event.locals.trpc.user.removeCodeByUserId(PublicKeyCredentialCreationOptionsJSON.user.id)
+        await db.update(users).set({ verificationCode: null }).where(eq(users.id, PublicKeyCredentialCreationOptionsJSON.user.id))
         
         return message(webauthnForm, 'Successfully signed up 🎉')
     }
